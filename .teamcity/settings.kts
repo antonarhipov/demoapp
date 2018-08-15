@@ -1,4 +1,6 @@
 import jetbrains.buildServer.configs.kotlin.v2018_1.*
+import jetbrains.buildServer.configs.kotlin.v2018_1.buildSteps.gradle
+import jetbrains.buildServer.configs.kotlin.v2018_1.triggers.vcs
 
 /*
 The settings script is an entry point for defining a TeamCity
@@ -25,14 +27,36 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 version = "2018.1"
 
 project {
+    buildType {
+        id("Build")
+        name = "Build"
 
-    buildType(Build)
+        vcs {
+           root(DslContext.settingsRoot)
+        }
+
+        artifactRules = "build/libs/app-*.jar"
+
+        steps {
+            gradle {
+                tasks = "clean build"
+            }
+        }
+
+        triggers {
+            vcs {  }
+        }
+
+        cleanup {
+            artifacts(days = 10)
+        }
+    }
 }
 
-object Build : BuildType({
-    name = "Build"
-
-    vcs {
-        root(DslContext.settingsRoot)
-    }
-})
+//object Build : BuildType({
+//    name = "Build"
+//
+//    vcs {
+//        root(DslContext.settingsRoot)
+//    }
+//})
