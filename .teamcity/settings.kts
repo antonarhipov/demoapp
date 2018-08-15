@@ -27,36 +27,50 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 version = "2018.1"
 
 project {
-    buildType {
-        id("Build")
-        name = "Build"
-
-        vcs {
-           root(DslContext.settingsRoot)
-        }
-
-        artifactRules = "build/libs/app-*.jar"
-
-        steps {
-            gradle {
-                tasks = "clean build"
-            }
-        }
-
-        triggers {
-            vcs {  }
-        }
-
-        cleanup {
-            artifacts(days = 10)
-        }
-    }
+    buildType(Build)
+    buildType(Package)
 }
 
-//object Build : BuildType({
-//    name = "Build"
-//
-//    vcs {
-//        root(DslContext.settingsRoot)
-//    }
-//})
+object Build : BuildType(
+        {
+            id("Build")
+            name = "Build"
+
+            vcs {
+                root(DslContext.settingsRoot)
+            }
+
+            artifactRules = "build/libs/app-*.jar"
+
+            steps {
+                gradle {
+                    tasks = "clean build"
+                }
+            }
+
+            cleanup {
+                artifacts(days = 10)
+            }
+        }
+)
+
+object Package : BuildType({
+    id("Package")
+    name = "Package"
+
+    dependencies {
+        snapshot(Build) {
+
+        }
+        artifacts(Build) {
+            artifactRules = "build/libs/app-*.jar"
+        }
+    }
+
+    triggers {
+        vcs {
+            watchChangesInDependencies = true
+        }
+    }
+
+})
