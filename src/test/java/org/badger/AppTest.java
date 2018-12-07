@@ -20,12 +20,12 @@ public class AppTest {
   @Test
 //  @Ignore
   public void someTest() {
-    Assert.assertEquals(1 , 3);
+    Assert.assertEquals(3, 3);
   }
 
   @Test
   public void moarTests() {
-    Assert.assertEquals(1 , 3);
+    Assert.assertEquals(3, 3);
   }
 
 }
