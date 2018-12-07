@@ -42,7 +42,7 @@ jobs:
       - run: ./gradlew clean build
       
       - store_artifacts:
-          path: ./build/libs/*.jar
+          path: ./build/libs/app-0.0.1-SNAPSHOT.jar.original
           destination: artifacts
 
       - store_test_results:
