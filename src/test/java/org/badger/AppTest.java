@@ -18,14 +18,14 @@ import java.util.stream.Stream;
 public class AppTest {
 
   @Test
-  @Ignore
+//  @Ignore
   public void someTest() {
     Assert.assertEquals(1 , 3);
   }
 
   @Test
   public void moarTests() {
-    Assert.assertEquals(3 , 3);
+    Assert.assertEquals(1 , 3);
   }
 
 }
